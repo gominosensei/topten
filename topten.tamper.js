@@ -3,6 +3,8 @@
 // @version    0.5
 // @description  Block URLs to top ten lists and other such nonsense
 // @include    *
+// @namespace  https://github.com/gominosensei/topten
+// @updateURL  https://github.com/gominosensei/topten/blob/master/topten.tamper.js
 // ==/UserScript==
 
 console.log("TopTen loaded");
@@ -14,7 +16,7 @@ Array.prototype.contains = function(string)
 	if (this.indexOf(string) > -1)
 	{ return true; }
 	else { return false; }
-}
+};
 
 // ==================================
 // == Define the patterns to match ==
@@ -35,7 +37,7 @@ var patternNumber = [
 	'least',
 	'reasons',
 	'ways to'
-	]
+	];
 
 // 10 really stupid things YOU WILL READ ANYWAY
 //    This pattern looks for link text with a number, one to three other words, and then the word or words specified here.
@@ -46,7 +48,7 @@ var patternNumberPlusThree = [
 	'you missed',
 	'stocks',
 	'moments'
-	]
+	];
 	
 // Specifically defined patterns (regex)
 var patterns = [
@@ -62,6 +64,7 @@ var patterns = [
 	'slideshow',
 	'celebrit',
 	'craziest',
+	'biggest mistake',
 	
 	'top.*(in)?(of)? 20[0-9]{2}',
 	'top.*of 20[0-9]{2}',
@@ -75,7 +78,6 @@ var patterns = [
 	'obamacare',
 	'santa',
 	'tiger woods',
-	'biggest mistake'
 	];
 	
 // Make all patterns case insensitive	
@@ -99,9 +101,11 @@ for (var i = 0; i < patternNumberPlusThree.length; i++)
 var whiteList = [
 	'stackoverflow.com',
 	'www.ebay.com',
-	'www.google.com'
+	'www.google.com',
+	'mail.google.com'
 	];
 	
+// TODO: Site blacklist.  Links to these sites will always be blocked.	
 var blackList = [
 	];
 
@@ -113,6 +117,7 @@ var blackList = [
 // Check if a URL is in a whitelisted domain
 function checkWhiteList(url)
 {
+	//TODO: only use the domain, not the whole URL.  www.google.com should count as google
 	var matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
 	var domain = matches && matches[1]; 
 
